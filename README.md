@@ -11,6 +11,9 @@ This repository was created to archive and document all of my attempts to learn 
 - APC Injection
 - ...
 
+> **Note**:
+> *As I come across more stuff, I'll add more to the list. Moreover, as I complete the techniques above, I'll also update this list.*
+
 ## `🛑` DISCLAIMER
 
 Obviously, the stuff in this repository is explicitly for educational purposes. Not that you'll be able to run this in a patched environment without getting the absolute sh*t flagged out of it. Regardless, I do not condone the use of these scripts for any malicious activities. 
