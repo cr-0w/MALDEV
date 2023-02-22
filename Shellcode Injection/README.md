@@ -52,10 +52,9 @@ Finally, we can now use our executable to see if we catch a shell. Let's see how
 
 https://user-images.githubusercontent.com/59679082/220713806-f2b4d399-f045-4699-805a-c4da7c7c930e.mp4
 
-We can also inspect the notepad process after getting a shell. We can see that it gets a new DLL that it should otherwise never have. `ws2_32.dll` which is responsible for sockets.
+We can also inspect the notepad process after getting a shell. We can see that it gets a new DLL that it [should otherwise never have](https://www.ired.team/offensive-security/code-injection-process-injection/process-injection#references). `ws2_32.dll` which is responsible for sockets.
 
 ![image](https://user-images.githubusercontent.com/59679082/220707821-832d13fc-99ad-422f-80a4-b1a5a5f935e7.png)
-
 
 
 ## `💖` Extra Resources
