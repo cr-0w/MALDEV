@@ -16,6 +16,12 @@ A shellcode injection consists of the following API calls:
 
 https://user-images.githubusercontent.com/59679082/220434097-27645ac4-c8a8-4679-bee8-f5ec277853a0.mp4
 
+## `⚠️` Disclaimer
+
+> **Note**:
+> *The final code, isn't exactly a super-vanilla implementation of this technique. I included my code from the [process enumeration](https://github.com/cr-0w/low-level/tree/main/Win32%20API/5-enumerateprocess) part of my [low-level](https://github.com/cr-0w/low-level) repository. I thought it would be a neat little way of combining some concepts.*
+
+
 ## `💖` Extra Resources
 
 Some other resources you can use to read up on this are:
