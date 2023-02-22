@@ -1,5 +1,10 @@
 ## `⚠️` MALWARE DEVELOPMENT
 
+<p align="center" width="100%">
+    <img width="30%" src="https://user-images.githubusercontent.com/59679082/220690535-7516365f-3383-4385-b7b2-d511d8fb1d17.png"> 
+</p>
+
+
 This repository was created to archive and document all of my attempts to learn and develop malware. I'm brand new to all of this; I will document my learning in the form of comments and the README files in each folder. We'll start from the absolute beginning and see how far we can get. The techniques I'd love to learn are:
 
 - [Shellcode Injection](Shellcode%20Injection) `✅`
