@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
 
 	DWORD arch;
 	if (!GetBinaryTypeW(procPath, &arch)) {
-		printf("[!] failed to get binary arch.");
+		printf("\n[!] failed to get binary arch.");
 	}
 
 	switch (arch) {
@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
 		break;
 
 	default:
-		printf("[!] process_architecture = UNKNOWN.");
+		printf("\n[!] process_architecture = UNKNOWN.");
 		break;
 	}
 
