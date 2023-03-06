@@ -84,7 +84,7 @@ BOOL WINAPI DllMain(
 }
 ```
 
-For our cases, we'll just have a super simple DLL, no extra things in the cases, we only care about the `case DLL_PROCESS_ATTACH` in this case (*pun, 1000% intended*). So, let's define our DLL as:
+For our purposes, we'll just have a super simple DLL, nothing extra. We only care about the `case DLL_PROCESS_ATTACH` in this case (*pun, 1000% intended*). So, let's define our DLL as:
 
 ![image](https://user-images.githubusercontent.com/59679082/223013305-3bae9d51-547c-429a-b0fc-1762735a10ad.png)
 
