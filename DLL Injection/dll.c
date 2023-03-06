@@ -26,6 +26,16 @@ int main(int argc, char* argv[]) {
     printf("%s created handle to process [%d]\n", ok, PID);
     printf("%s allocating memory within process...\n", in);
 
+	/*
+	LPVOID VirtualAllocEx(
+		[in]           HANDLE hProcess,
+		[in, optional] LPVOID lpAddress,
+		[in]           SIZE_T dwSize,
+		[in]           DWORD  flAllocationType,
+		[in]           DWORD  flProtect
+	);
+	*/
+
     rBuffer = VirtualAllocEx(hProcess,
         rBuffer,
         sizeof(dllLocation),
@@ -37,6 +47,16 @@ int main(int argc, char* argv[]) {
     printf("\t%s VirtualAllocEx() [flAllocationType -> MEM_COMMIT | MEM_RESERVE]\n\n", in);
     printf("%s writing to process memory...\n", in);
 
+	/*
+	BOOL WriteProcessMemory(
+		[in]  HANDLE  hProcess,
+		[in]  LPVOID  lpBaseAddress,
+		[in]  LPCVOID lpBuffer,
+		[in]  SIZE_T  nSize,
+		[out] SIZE_T  *lpNumberOfBytesWritten
+	);
+	*/
+
     WriteProcessMemory(hProcess,
         rBuffer,
         (LPVOID)dllLocation,
@@ -47,10 +67,28 @@ int main(int argc, char* argv[]) {
     printf("\t%s getting library [LoadLibraryW() -> Kernel32] address...\n", in);
     printf("\t%s starting PTHREAD_START_ROUTINE...\n\n", in);
 
+	/*
+	typedef DWORD (__stdcall *LPTHREAD_START_ROUTINE) (  
+    	[in] LPVOID lpThreadParameter  
+	);
+	*/
+
     PTHREAD_START_ROUTINE startRoutine = (PTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle(TEXT("Kernel32")), "LoadLibraryW");
 
     printf("%s PTHREAD_START_ROUTINE done, loading library address done\n", ok);
     printf("%s creating remote thread...\n", in);
+
+	/*
+	HANDLE CreateRemoteThread(
+		[in]  HANDLE                 hProcess,
+		[in]  LPSECURITY_ATTRIBUTES  lpThreadAttributes,
+		[in]  SIZE_T                 dwStackSize,
+		[in]  LPTHREAD_START_ROUTINE lpStartAddress,
+		[in]  LPVOID                 lpParameter,
+		[in]  DWORD                  dwCreationFlags,
+		[out] LPDWORD                lpThreadId
+	);
+	*/
 
     CreateRemoteThread(hProcess,
         NULL,
