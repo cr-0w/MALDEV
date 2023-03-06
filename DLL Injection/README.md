@@ -113,14 +113,14 @@ Except, we also have to include the path to the DLL in our script:
 wchar_t dllLocation[MAX_PATH] = L"C:\\Users\\Niko Bellic\\Desktop\\Tools\\DLL Injection\\example.dll";
 ```
 
-Moreover, there's also the added obstacle of needing to find the address of the [`LoadLibraryA()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya?redirectedfrom=MSDN) API we were talking about. This API is responsible for loading our DLL into the target process. Therefore, we *desperately* need to find and utilize it. How? Well, we can get the address of this function with the following lines of code (as seen in Cocomelonc's [**amazing blog post**](https://cocomelonc.github.io/tutorial/2021/09/20/malware-injection-2.html)):
+Moreover, there's also the added obstacle of needing to find the address of the [`LoadLibraryA()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya?redirectedfrom=MSDN) API we were talking about. This API is responsible for loading our DLL into the target process. Therefore, we *desperately* need to find and utilize it. How? Well, we can get the address of this function with the following lines of code (as seen in cocomelonc's [**amazing blog post**](https://cocomelonc.github.io/tutorial/2021/09/20/malware-injection-2.html)):
 
 ```c
 HMODULE hKernel32 = GetModuleHandle("Kernel32");
 VOID *lb = GetProcAddress(hKernel32, "LoadLibraryA");
 ```
 
-What we're doing here is first using [`GetModuleHandle()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlea) to get a handle to [`Kernel32`](https://www.techopedia.com/definition/3379/kernel32dll#:~:text=operations%20and%20interrupts.-,Kernel32.,other%20system%20or%20user%20processes.) which is a DLL/Module used by... you guessed it, the Windows Kernel! It's actually one of the most important files that your computer requires in order to function properly. The next part, is the usage of [`GetProcAddress()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress). This is really cool so listen up! With this, we supply the handle of the module that we want to search inside of, in this case, **Kernel32**, and specify the function that we'd like to get the address for! So, in other words, we can see it as:
+What we're doing here is first using [`GetModuleHandle()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlea) to get a handle to [`Kernel32`](https://www.techopedia.com/definition/3379/kernel32dll#:~:text=operations%20and%20interrupts.-,Kernel32.,other%20system%20or%20user%20processes.) which is a DLL/Module used by... you guessed it, the Windows Kernel! It's actually one of the most important files that your OS requires in order to function properly. The next part, is the usage of [`GetProcAddress()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress). This is really cool so listen up! With this, we supply the handle of the module that we want to search inside of, in this case, **Kernel32**, and specify the function that we'd like to get the address for! So, in other words, we can see it as:
 
 ```c
 HMODULE hKernel32 = GetModuleHandle("Kernel32"); // get a handle to the Kernel32 Module
@@ -129,7 +129,7 @@ VOID *lb = GetProcAddress(hKernel32, "LoadLibraryA"); // inside of the Kernel32 
 
 Pretty straight forward! 😄 
 
-> **Note**: *In [my script](dll.c), I have it setup in a bit of a different way; I'm using but just know that the premise is the exact same:*
+> **Note**: *In [my script](dll.c), I have it setup in a bit of a different way; but just know that the premise is the exact same:*
 
 ```c
     [snip...]
