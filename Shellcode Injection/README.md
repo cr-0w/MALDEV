@@ -4,10 +4,10 @@ This technique is as vanilla as it gets; the simplest. It's also *quite* elegant
 
 A shellcode injection consists of the following API calls:
 
-- `OpenProcess()`
-- `VirtualAllocEx()`
-- `WriteProcessMemory()`
-- `CreateRemoteThread()`
+- [`OpenProcess()`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess)
+- [`VirtualAllocEx()`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualallocex)
+- [`WriteProcessMemory()`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory)
+- [`CreateRemoteThread()`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethread)
 
 > **Note**:
 > *All of the documentation for these functions, as well as the Win32 API can be found/read from [Microsoft themselves](https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list). It's an amazing resource; although it may seem extremely daunting at first. However, I promise that if you take the time to actually read it - as well as read the related documents that use your function, you'll come to appreciate this resource.*
