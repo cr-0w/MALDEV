@@ -2,7 +2,7 @@
 
 PVOID rBuffer;
 HANDLE hProcess;
-wchar_t dllLocation[MAX_PATH] = L"C:\Users\Niko Bellic\Desktop\Tools\DLL Injection\example.dll";
+wchar_t dllLocation[MAX_PATH] = L"C:\\Users\\Niko Bellic\\Desktop\\Tools\\DLL Injection\\example.dll";
 
 int main(int argc, char* argv[]) {
 
