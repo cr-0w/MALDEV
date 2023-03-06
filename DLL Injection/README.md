@@ -36,7 +36,7 @@ This program simply just opens up a message box with the [MessageBoxW()](https:/
 
 ![image](https://user-images.githubusercontent.com/59679082/223012301-23fae22e-c3aa-41cc-ac34-534d9d452346.png)
 
-Now, what if we wanted to create a DLL that did the exact same thing? The way a DLL works, is a *bit* different but it's not too bad. Just like with normal EXEs or C-scripts or whatever, the program has a `main()`, for DLL's, it's called: [`DllMain`](https://learn.microsoft.com/en-us/windows/win32/dlls/dllmain). From the documentation:
+Now, what if we wanted to create a DLL that did the exact same thing? The way a DLL works is a *bit* different but it's not too bad. Just like with normal EXEs or C-scripts or whatever, the program has a `main()`, for DLL's, it's called: [`DllMain`](https://learn.microsoft.com/en-us/windows/win32/dlls/dllmain). From the documentation:
 
 ```cpp
 BOOL WINAPI DllMain(
@@ -46,7 +46,7 @@ BOOL WINAPI DllMain(
 );
 ```
 
-This will be the DLL's **entry point**, similar to how our C-functions have the `main()` entry point. Now, let's look at the example from the documentation:
+This will be the DLL's **entry point**, similar to how our C-files have the `main()` entry point. Now, let's look at the example from the documentation:
 
 ```cpp
 BOOL WINAPI DllMain(
