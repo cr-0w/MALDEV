@@ -113,7 +113,7 @@ Except, we also have to include the path to the DLL in our script:
 wchar_t dllLocation[MAX_PATH] = L"C:\\Users\\Niko Bellic\\Desktop\\Tools\\DLL Injection\\example.dll";
 ```
 
-Moreover, there's also the added obstacle of needing to find the address of the [`LoadLibraryA()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya?redirectedfrom=MSDN) API we were talking about. This API is responsible for loading our DLL into the target process. Therefore, we *desperately* need to find and utilize it. How? Well, we can get the address of this API call with the following lines of code (as seen in Cocomelonc's [**amazing blog post**](https://cocomelonc.github.io/tutorial/2021/09/20/malware-injection-2.html):
+Moreover, there's also the added obstacle of needing to find the address of the [`LoadLibraryA()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya?redirectedfrom=MSDN) API we were talking about. This API is responsible for loading our DLL into the target process. Therefore, we *desperately* need to find and utilize it. How? Well, we can get the address of this function with the following lines of code (as seen in Cocomelonc's [**amazing blog post**](https://cocomelonc.github.io/tutorial/2021/09/20/malware-injection-2.html)):
 
 ```c
 HMODULE hKernel32 = GetModuleHandle("Kernel32");
