@@ -59,6 +59,8 @@ We can also inspect the notepad process after getting a shell. We can see that i
 
 ## `💖` Extra Resources
 
+> **Note**: *I will be making a YouTube video about this technique and the [DLL Injection](https://github.com/cr-0w/MALDEV/tree/main/DLL%20Injection) on my [YouTube Channel](https://www.youtube.com/@crr0ww), once I do, I'll update this line with the link to the video. Until then, keep your eyes peeled* 😄 
+
 Some other resources you can use to read up on this technique are:
 
 - [CreateRemoteThread Shellcode Injection](https://www.ired.team/offensive-security/code-injection-process-injection/process-injection)
