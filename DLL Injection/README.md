@@ -107,12 +107,12 @@ A DLL injection consists of the pretty much the same API calls as the ones we sa
 - [`WriteProcessMemory()`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory)
 - [`CreateRemoteThread()`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethread)
 
+MORE TO BE ADDED SOON.
+
 ## `💽` Demo
+
+MORE TO BE ADDED SOON.
 
 ## `💖` Extra Resources
 
-Some other resources you can use to read up on this technique are:
-
-- [CreateRemoteThread Shellcode Injection](https://www.ired.team/offensive-security/code-injection-process-injection/process-injection)
-- [Process Injection using CreateRemoteThread API](https://tbhaxor.com/createremotethread-process-injection/)
-- [Process Injection: Remote Thread Injection or CreateRemoteThread](https://aliongreen.github.io/posts/remote-thread-injection.html)
+MORE TO BE ADDED SOON.
