@@ -1,6 +1,6 @@
 ## `💉` DLL Injection
 
-This type of process injection technique is the natural successor to the simple [shellcode injection](https://github.com/cr-0w/MALDEV/tree/main/Shellcode%20Injection) we did a while ago. Instead of getting our dirty little hands on a process, opening it, allocating some memory inside of it, writing to that previously allocated memory with our shellcode, and finally creating a thread to run our shellcode, we instead utilize the [`LoadLibraryA()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya?redirectedfrom=MSDN) function. From the documentation, we can see that it simply just takes the library that we'd like to load, and it *just works*. Magically!
+This type of process injection technique is the natural successor to the simple [shellcode injection](https://github.com/cr-0w/MALDEV/tree/main/Shellcode%20Injection) we did a while ago. Instead of getting our dirty little hands on a process, opening it, allocating some memory inside of it, writing to that previously allocated memory with our shellcode, and finally creating a thread to run our shellcode, we instead utilize the [`LoadLibraryA()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya?redirectedfrom=MSDN) function (after finding its address, as we'll see later on). From the documentation, we can see that it simply just takes the library that we'd like to load, and it *just works*. Magically!
 
 ```c
 HMODULE LoadLibraryA(
@@ -107,12 +107,63 @@ A DLL injection consists of the pretty much the same API calls as the ones we sa
 - [`WriteProcessMemory()`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory)
 - [`CreateRemoteThread()`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethread)
 
-MORE TO BE ADDED SOON.
+Except, we also have to include the path to the DLL in our script:
+
+```cpp
+wchar_t dllLocation[MAX_PATH] = L"C:\\Users\\Niko Bellic\\Desktop\\Tools\\DLL Injection\\example.dll";
+```
+
+Moreover, there's also the added obstacle of needing to find the address of the [`LoadLibraryA()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya?redirectedfrom=MSDN) API we were talking about. This API is responsible for loading our DLL into the target process. Therefore, we *desperately* need to find and utilize it. How? Well, we can get the address of this API call with the following lines of code (as seen in Cocomelonc's [**amazing blog post**](https://cocomelonc.github.io/tutorial/2021/09/20/malware-injection-2.html):
+
+```c
+HMODULE hKernel32 = GetModuleHandle("Kernel32");
+VOID *lb = GetProcAddress(hKernel32, "LoadLibraryA");
+```
+
+What we're doing here is first using [`GetModuleHandle()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlea) to get a handle to [`Kernel32`](https://www.techopedia.com/definition/3379/kernel32dll#:~:text=operations%20and%20interrupts.-,Kernel32.,other%20system%20or%20user%20processes.) which is a DLL/Module used by... you guessed it, the Windows Kernel! It's actually one of the most important files that your computer requires in order to function properly. The next part, is the usage of [`GetProcAddress()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress). This is really cool so listen up! With this, we supply the handle of the module that we want to search inside of, in this case, **Kernel32**, and specify the function that we'd like to get the address for! So, in other words, we can see it as:
+
+```c
+HMODULE hKernel32 = GetModuleHandle("Kernel32"); // get a handle to the Kernel32 Module
+VOID *lb = GetProcAddress(hKernel32, "LoadLibraryA"); // inside of the Kernel32 module, look for "LoadLibraryA()"
+```
+
+Pretty straight forward! 😄 
+
+> **Note**: *In [my script](dll.c), I have it setup in a bit of a different way; I'm using but just know that the premise is the exact same:*
+
+```c
+    [snip...]
+    
+    PTHREAD_START_ROUTINE startRoutine = (PTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle(TEXT("Kernel32")), "LoadLibraryW"); 
+    
+    [snip...]
+```
+
+All in all, that brings all of the functions that we needed for this specific technique to the following:
+
+- [`OpenProcess()`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess)
+- [`VirtualAllocEx()`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualallocex)
+- [`GetModuleHandle()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlea)
+- [`LoadLibraryA()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya?redirectedfrom=MSDN)
+- [`GetProcAddress()`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress)
+- [`WriteProcessMemory()`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory)
+- [`CreateRemoteThread()`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethread)
 
 ## `💽` Demo
 
-MORE TO BE ADDED SOON.
+> **Warning**: *Once again, you could include whatever you want in your DLL, I opted to not go for a reverse shell or anything because I'm more interested in the PoC as of right now.* 
+
+https://user-images.githubusercontent.com/59679082/223062495-22dab688-a5dd-4478-ab3d-ce660b495a1e.mp4
+
+And a neat little thing once we see when we start inspecting the memory, is that we find some cool little artefacts like the `lpText` and `lpCaption` parameters of the [`MessageBoxW()`](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messageboxw) function.
+
+![image](https://user-images.githubusercontent.com/59679082/223063205-0f81ffda-1c52-4e8e-8412-7b6886a3b0f2.png)
 
 ## `💖` Extra Resources
 
-MORE TO BE ADDED SOON.
+> **Note**: *I will be making a YouTube video about this technique and the [Shellcode Injection](https://github.com/cr-0w/MALDEV/tree/main/Shellcode%20Injection) on my [YouTube Channel](https://www.youtube.com/@crr0ww), once I do, I'll update this line with the link to the video. Until then, keep your eyes peeled* 😄 
+
+- [`DLL Injection`](https://www.ired.team/offensive-security/code-injection-process-injection/dll-injection)
+- [`Windows DLL Injection Basics`](http://blog.opensecurityresearch.com/2013/01/windows-dll-injection-basics.html)
+- [`DLL Injection Attacks in a Nutshell`](https://medium.com/bug-bounty-hunting/dll-injection-attacks-in-a-nutshell-71bc84ac59bd)
+- [`Classic DLL Injection Into The Process`](https://cocomelonc.github.io/tutorial/2021/09/20/malware-injection-2.html)
